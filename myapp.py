@@ -4,59 +4,35 @@ import os
 
 app = Flask(__name__)
 app.secret_key = 'zhrakey'
-
-# ==========================
-# KONFIG DATABASE
-# ==========================
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'portofoliodb'
 mysql = MySQL(app)
-
-# ==========================
-# PENGATURAN UPLOAD FILE
-# ==========================
 UPLOAD_FOLDER = 'static/uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-# ==========================
-# HALAMAN PUBLIK
-# ==========================
 @app.route('/')
 def index():
     cur = mysql.connection.cursor()
-
-    # profil admin
     cur.execute("SELECT nama, bio, photo FROM user LIMIT 1")
     profile = cur.fetchone()
-
-    # daftar skill
     cur.execute("SELECT * FROM skills")
     skills = cur.fetchall()
-
-    # daftar project
     cur.execute("SELECT * FROM project")
     projects = cur.fetchall()
     cur.close()
-
     return render_template('index.html', profile=profile, skills=skills, projects=projects)
 
-# ==========================
-# LOGIN / LOGOUT
-# ==========================
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         uname = request.form['username']
         pwd = request.form['password']
-
         cur = mysql.connection.cursor()
         cur.execute("SELECT * FROM user WHERE username=%s AND password=%s", (uname, pwd))
         user = cur.fetchone()
         cur.close()
-
         if user:
             session['is_logged_in'] = True
             session['username'] = user[1]
@@ -71,36 +47,24 @@ def logout():
     session.clear()
     flash('Berhasil logout.', 'info')
     return redirect(url_for('index'))
-
-# ==========================
-# HALAMAN ADMIN
-# ==========================
 @app.route('/admin')
 def admin():
     if not session.get('is_logged_in'):
         return redirect(url_for('login'))
-
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM user LIMIT 1")
     profile = cur.fetchone()
-
     cur.execute("SELECT * FROM skills")
     skills = cur.fetchall()
-
     cur.execute("SELECT * FROM project")
     projects = cur.fetchall()
     cur.close()
-
     return render_template('admin.html', profile=profile, skills=skills, projects=projects)
 
-# ==========================
-# EDIT PROFIL
-# ==========================
 @app.route('/edit_profile', methods=['POST'])
 def edit_profile():
     if not session.get('is_logged_in'):
         return redirect(url_for('login'))
-
     nama = request.form['name']
     bio = request.form['bio']
     photo = request.files['photo']
@@ -121,16 +85,11 @@ def edit_profile():
 
     flash('Profil berhasil diperbarui!', 'success')
     return redirect(url_for('admin'))
-
-# ==========================
-# CRUD SKILL
-# ==========================
 @app.route('/add_skill', methods=['POST'])
 def add_skill():
     name = request.form['name']
     level = request.form['level']
     icon = request.form['icon']
-
     cur = mysql.connection.cursor()
     cur.execute("INSERT INTO skills (name, level, icon) VALUES (%s, %s, %s)", (name, level, icon))
     mysql.connection.commit()
@@ -163,9 +122,6 @@ def delete_skill(id):
     flash('Skill berhasil dihapus!', 'danger')
     return redirect(url_for('admin'))
 
-# ==========================
-# CRUD PROJECT
-# ==========================
 @app.route('/add_project', methods=['POST'])
 def add_project():
     title = request.form['title']
@@ -227,9 +183,6 @@ def delete_project(id):
 
     flash('Project berhasil dihapus!', 'danger')
     return redirect(url_for('admin'))
-
-# ==========================
-# JALANKAN SERVER
-# ==========================
 if __name__ == '__main__':
     app.run(debug=True)
+
