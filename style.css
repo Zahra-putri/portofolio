@@ -1,0 +1,155 @@
+/* ========== PALET WARNA ========== */
+:root {
+  --pink: #f8b4c1;
+  --pink-dark: #e89aa8;
+  --bg-light: #fff8fa;
+  --text-dark: #4a4a4a;
+  --gray: #ddd;
+}
+
+/* ========== BODY & DASAR ========== */
+body {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Text dan tombol pink */
+.text-pink {
+  color: var(--pink-dark) !important;
+}
+
+.btn-pink {
+  background-color: var(--pink-dark);
+  border: none;
+  color: white;
+  transition: 0.3s;
+}
+
+.btn-pink:hover {
+  background-color: var(--pink);
+  color: #fff;
+}
+
+/* Card & shadow lembut */
+.card {
+  border-radius: 10px;
+  border: 1px solid var(--gray);
+  background-color: white;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  transition: 0.3s;
+}
+
+/* Navbar */
+.navbar {
+  background-color: #fff;
+}
+
+.navbar .navbar-brand {
+  color: var(--pink-dark) !important;
+  font-weight: 700;
+}
+
+.navbar .btn {
+  border-radius: 20px;
+}
+
+/* Form login */
+.login-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+}
+
+.login-box .card {
+  width: 100%;
+  max-width: 400px;
+  background-color: #fff;
+  border-radius: 15px;
+}
+
+/* Gaya form */
+input[type=text],
+input[type=password],
+textarea {
+  border-radius: 8px;
+  border: 1px solid var(--gray);
+  transition: 0.2s;
+}
+
+input:focus, textarea:focus {
+  border-color: var(--pink-dark);
+  box-shadow: 0 0 3px var(--pink);
+}
+
+/* Heading */
+h2, h3, h4 {
+  color: var(--pink-dark);
+}
+
+/* Table admin */
+.table {
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: white;
+}
+
+.table thead {
+  background-color: var(--pink-dark);
+  color: white;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: #fff4f6;
+}
+
+/* Gambar profil */
+img.rounded-circle {
+  object-fit: cover;
+  border: 3px solid var(--pink);
+}
+
+/* Flash alert */
+.alert-success {
+  background-color: #f1faf1;
+  border-left: 5px solid #58b85a;
+}
+.alert-danger {
+  background-color: #fdeaea;
+  border-left: 5px solid #ff8080;
+}
+.alert-info {
+  background-color: #eef7fd;
+  border-left: 5px solid #6bb3f2;
+}
+.alert-dismissible .btn-close {
+  filter: invert(0.5);
+}
+
+/* Tombol CRUD kecil */
+.btn-sm {
+  border-radius: 5px;
+  font-size: 0.85rem;
+}
+
+/* Responsif */
+@media (max-width: 768px) {
+  .card {
+    margin-bottom: 1rem;
+  }
+  .navbar .btn {
+    font-size: 0.9rem;
+  }
+}
+
+/* Footer (optional) */
+footer {
+  text-align: center;
+  padding: 15px 0;
+  color: #888;
+  font-size: 0.9rem;
+}
